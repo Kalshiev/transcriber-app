@@ -1,7 +1,13 @@
 # Transcriber App
 
-A small command-line tool that transcribes audio and video files to plain text using
+A small tool that transcribes audio and video files to plain text using
 [OpenAI Whisper](https://github.com/openai/whisper).
+
+It can be used two ways:
+
+- **Graphical interface** (`transcriber_gui.py`) — a simple point-and-click
+  window, ideal on Windows.
+- **Command line** (`transcriber.py`) — for scripting and power users.
 
 Given an audio/video file, it writes the transcription to a sibling `.txt` file.
 
@@ -54,11 +60,37 @@ brew install ffmpeg
 
 ## Usage
 
+### Graphical interface (Windows)
+
+The GUI is built with **tkinter**, which ships with Python on Windows, so no
+additional packages are required beyond the ones listed above.
+
+From a command prompt:
+
+```bat
+cd transcriber-app
+python transcriber_gui.py
+```
+
+Or simply double-click `run_transcriber_gui.bat` in the project folder.
+
+In the window:
+
+1. Click **Browse…** and pick an audio or video file.
+2. Choose the **language** (or *Auto-detect*) and the Whisper **model** size.
+3. Click **Transcribe** and wait for the progress bar to finish.
+4. The text appears in the box, where you can review it and use **Save As…**.
+
+> The transcription is also saved automatically next to the input file as
+> `<name>_transcription.txt`, the same as the command-line version.
+
+### Command line
+
 ```bash
 python transcriber.py [options] FILE
 ```
 
-### Arguments
+### Arguments (command line)
 
 | Argument | Description | Default |
 | --- | --- | --- |

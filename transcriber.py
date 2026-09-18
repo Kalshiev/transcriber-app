@@ -72,12 +72,22 @@ def check_if_audio(file_path):
         )
 
 
-def transcribe_audio(file_path, language, model_name):
-    """Load the Whisper model and transcribe the given file."""
-    print(f"Loading Whisper model '{model_name}'...")
+def transcribe_audio(file_path, language, model_name, on_status=None):
+    """Load the Whisper model and transcribe the given file.
+
+    Returns the transcription text. Status updates are printed to stdout by
+    default; pass ``on_status`` to receive them instead (e.g. from a GUI).
+    """
+    def report(message):
+        if on_status:
+            on_status(message)
+        else:
+            print(message)
+
+    report(f"Loading Whisper model '{model_name}'...")
     model = whisper.load_model(model_name)
 
-    print(f"Transcribing '{file_path}' (language={language})...")
+    report(f"Transcribing '{file_path}' (language={language})...")
     result = model.transcribe(file_path, language=language, fp16=False)
 
     # Build output file name — replace original extension with _transcription.txt
@@ -87,7 +97,8 @@ def transcribe_audio(file_path, language, model_name):
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(result["text"])
 
-    print(f"Transcription saved to '{out_path}'")
+    report(f"Transcription saved to '{out_path}'")
+    return result["text"]
 
 
 def main():
